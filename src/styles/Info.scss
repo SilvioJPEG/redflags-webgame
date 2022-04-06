@@ -1,0 +1,17 @@
+.info {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    margin-bottom: 5px;
+    &__color {
+        display: block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        margin-right: 8px;
+    }
+    &__nickname {
+        margin-right: 8px;
+    }
+}

@@ -1,0 +1,41 @@
+.card {
+  width: 120px;
+  height: 160px;
+  font-size: 14px;
+  perspective: 500px;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+  border-radius: 15px;
+  user-select: none;
+  &__inner {
+    padding: 10%;
+    height: 90%;
+    border-radius: inherit;
+  }
+  &:hover {
+    cursor: grab;
+    border-color: #ff9800;
+  }
+}
+
+.card_perks {
+  background-color: #fff;
+  color: #000;
+  .card__inner_back {
+    background: no-repeat center url("../assets/card-back-perks.svg");
+    background-size: 70%;
+    height: 100%;
+    border-radius: inherit;
+  }
+}
+
+.card_flags {
+  background-color: #ae1e1e;
+  color: #fff;
+  .card__inner_back {
+    background: no-repeat center url("../assets/card-back-flags.svg");
+    background-size: 70%;
+    height: 100%;
+    border-radius: inherit;
+  }
+}

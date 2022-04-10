@@ -1,16 +1,38 @@
 import "../styles/Card.scss";
+import React from "react";
+import { BaseCard } from "../types";
+import { observer } from "mobx-react-lite";
+import PlayerStore from "../store/PlayerStore";
+interface CardProps {
+  card: BaseCard;
+  inHand: boolean;
+  username: string;
+}
 
-export type CardProps = {
-  type: "flags" | "perks";
-  cardText: string | null;
-};
-
-export const Card: React.FC<CardProps> = ({ type, cardText }) => {
-  return (
-    <div className={"card " + "card_" + type}>
-      <div className={"card__inner" + (cardText ? "" : "_back")}>
-        {cardText ? <p>{cardText}</p> : ""}
+export const Card: React.FC<CardProps> = observer(
+  ({ card, inHand, username }) => {
+    function checkDragging(): boolean {
+      if (!inHand || PlayerStore.draggingCard === null) {
+        return false;
+      }
+      if (PlayerStore.draggingCard.cardText === card.cardText) {
+        return true;
+      }
+      return false;
+    }
+    return (
+      <div
+        className={"card " + "card_" + card.type}
+        onMouseDown={() => {
+          if (username === PlayerStore.username)
+            PlayerStore.setDraggingCard(card);
+        }}
+        style={checkDragging() ? { opacity: 0 } : {}}
+      >
+        <div className={"card__inner" + (card.cardText ? "" : "_back")}>
+          {card.cardText ? <p>{card.cardText}</p> : ""}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+);

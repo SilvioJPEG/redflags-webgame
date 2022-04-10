@@ -34,7 +34,8 @@ body {
 }
 .playerGroup_upper {
   transform: rotate(180deg);
-  .info, .card__inner {
+  .info,
+  .card__inner {
     transform: rotate(180deg);
   }
 }
@@ -56,6 +57,9 @@ body {
     .cardPlace {
       width: 124px;
       height: 164px;
+      &_signaling:before {
+        animation: slot-signaling 0.5s infinite alternate linear;
+      }
     }
     .cardPlace::before {
       content: "";
@@ -66,4 +70,8 @@ body {
       border: 2px dashed rgba(255, 255, 255, 0.1);
     }
   }
+}
+@keyframes slot-signaling {
+  from {border-color: rgba(255,214,0,.24)}
+  to {border-color: rgba(255,214,0,.64)}
 }

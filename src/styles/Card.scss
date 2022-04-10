@@ -18,6 +18,14 @@
   }
 }
 
+#card_dragging {
+  .card:hover {
+    cursor: move;
+    cursor: grabbing;
+    border-color: transparent;
+  }
+}
+
 .card_perks {
   background-color: #fff;
   color: #000;

@@ -21,7 +21,10 @@ class PlayerStore {
     this.draggingCard = card;
   }
   setPickedCards(index: number, card: BaseCard) {
-
+    this.pickedCards[index] = { index: index, card: card };
+  }
+  getPickedCard(index: number): BaseCard | null {
+    return this.pickedCards[index].card;
   }
 }
 

@@ -12,12 +12,14 @@
     height: 90%;
     border-radius: inherit;
   }
+}
+.card_inHand {
   &:hover {
     cursor: grab;
     border-color: #ff9800;
+    transform: translateY(-10px);
   }
 }
-
 #card_dragging {
   .card:hover {
     cursor: move;

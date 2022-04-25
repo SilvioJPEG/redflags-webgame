@@ -10,9 +10,9 @@
     "@types/node": "^16.11.26",
     "@types/react": "^17.0.43",
     "@types/react-dom": "^17.0.14",
+    "axios": "^0.26.1",
     "mobx-react-lite": "^3.3.0",
     "react": "^17.0.2",
-    "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
     "sass": "^1.49.11",
@@ -42,8 +42,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/react-beautiful-dnd": "^13.1.2"
   }
 }

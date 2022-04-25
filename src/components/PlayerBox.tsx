@@ -8,13 +8,13 @@ import { observer } from "mobx-react-lite";
 import PlayerStore from "../store/PlayerStore";
 
 type PlayerBoxProps = {
-  player: User;
+  playerName: string;
   handCards: BaseCard[];
   changeHandCards?: (data: BaseCard[]) => void;
 };
 
 const PlayerBox: React.FC<PlayerBoxProps> = observer(
-  ({ handCards, player }) => {
+  ({ handCards, playerName }) => {
     function stringToHslColor(str: string, s: number, l: number): string {
       var hash = 0;
       for (var i = 0; i < str.length; i++) {
@@ -25,8 +25,8 @@ const PlayerBox: React.FC<PlayerBoxProps> = observer(
       return "hsl(" + h + ", " + s + "%, " + l + "%)";
     }
     function getEmojiStatus(): string {
-      if (player.username === GameStore.itsTurn) return "🤚";
-      if (player.username === GameStore.picker) return "👑";
+      if (playerName === GameStore.currentTurn) return "🤚";
+      if (playerName === GameStore.judge) return "👑";
       return "🤐";
     }
     return (
@@ -36,7 +36,7 @@ const PlayerBox: React.FC<PlayerBoxProps> = observer(
             <DropZone
               key={perk.index}
               index={perk.index}
-              username={player.username}
+              username={playerName}
             />
           ))}
         </div>
@@ -44,12 +44,7 @@ const PlayerBox: React.FC<PlayerBoxProps> = observer(
 
         <div className="box__hand">
           {handCards.map((card, index) => (
-            <Card
-              key={index}
-              card={card}
-              inHand={true}
-              username={player.username}
-            />
+            <Card key={index} card={card} inHand={true} username={playerName} />
           ))}
         </div>
 
@@ -57,10 +52,10 @@ const PlayerBox: React.FC<PlayerBoxProps> = observer(
           <div
             className="info__color"
             style={{
-              backgroundColor: stringToHslColor(player.username, 70, 50),
+              backgroundColor: stringToHslColor(playerName, 70, 50),
             }}
           ></div>
-          <div className="info__nickname">{player.username}</div>
+          <div className="info__nickname">{playerName}</div>
           <div className="info__emojiStatus">{getEmojiStatus()}</div>
         </div>
       </div>

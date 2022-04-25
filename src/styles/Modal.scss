@@ -1,0 +1,16 @@
+.modal {
+  background-color: var(--red);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  align-items: center;
+  color: white;
+  padding: 10px 15px;
+  .buttonsGroup {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    width: 100%;
+  }
+}

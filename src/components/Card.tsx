@@ -22,9 +22,11 @@ export const Card: React.FC<CardProps> = observer(
     }
     return (
       <div
-        className={"card " + "card_" + card.type}
+        className={
+          "card " + "card_" + card.type + (inHand ? " card_inHand" : "")
+        }
         onMouseDown={() => {
-          if (username === PlayerStore.username)
+          if (username === PlayerStore.username && inHand)
             PlayerStore.setDraggingCard(card);
         }}
         style={checkDragging() ? { opacity: 0 } : {}}

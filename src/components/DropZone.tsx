@@ -1,5 +1,7 @@
 import { observer } from "mobx-react-lite";
+import CursorStore from "../store/CursorStore";
 import PlayerStore from "../store/PlayerStore";
+import { Card } from "./Card";
 type DropZoneProps = {
   index: number;
   username: string;
@@ -18,7 +20,7 @@ const DropZone: React.FC<DropZoneProps> = observer(({ index, username }) => {
           return true;
         }
         if (
-          [0,1].includes(index) &&
+          [0, 1].includes(index) &&
           card.type === "perks" &&
           PlayerStore.pickedCards[index].card === null
         ) {
@@ -29,13 +31,27 @@ const DropZone: React.FC<DropZoneProps> = observer(({ index, username }) => {
 
     return false;
   }
-  //TODO: dropping currently draggable card function
+  function myDropZone(): boolean {
+    if (PlayerStore.getPickedCard(index) === null) 
+      return false;
+    return ((username === PlayerStore.username))
+  }
   return (
     <div
       className={"cardPlace" + (canDropCard() ? " cardPlace_signaling" : "")}
       style={index === 2 ? { marginLeft: "20px" } : {}}
     >
-      {}
+      {myDropZone() ? (
+        <div style={{ position: "absolute", top: 0 }}>
+          <Card
+            card={PlayerStore.getPickedCard(index)!}
+            inHand={false}
+            username={username}
+          />
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 });

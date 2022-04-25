@@ -4,7 +4,7 @@ import { Position } from "../types";
 class CursorStore {
   pos: Position = { x: 0, y: 0 };
   mouseDown: boolean = false;
-
+  dropZoneIndex: number | null = null;
   constructor() {
     makeAutoObservable(this);
   }
@@ -14,6 +14,10 @@ class CursorStore {
   }
   changeMousePos(newPosition: Position) {
     this.pos = newPosition;
+  }
+
+  setDropZoneIndex(index: number | null) {
+    this.dropZoneIndex = index;
   }
 }
 

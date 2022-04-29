@@ -4,7 +4,7 @@ import { GameDataAll } from "../types/api";
 
 class GameStore {
   //saves current player username;
-  roomId: string | null = null;
+  roomId: number | null = null;
   gameStatus: "ready" | "in-progress" = "ready";
   currentTurn: string = "Alex Si";
   judge: string = "Selen Uni";
@@ -65,17 +65,23 @@ class GameStore {
       hand.cardsInHand = reducedCards;
     }
   }
-  setGameData(GameData: GameDataAll) {
-    this.roomId = GameData.roomId;
-    if (
-      GameData.gameStatus === "ready" ||
-      GameData.gameStatus === "in-progress"
-    ) {
-      this.gameStatus = GameData.gameStatus;
+  setGameData(GameData: GameDataAll | null) {
+    if (GameData === null) {
+      this.roomId = null;
+      this.playersList = [];
+      this.hands = [];
+    } else {
+      this.roomId = GameData.id;
+      if (
+        GameData.gameStatus === "ready" ||
+        GameData.gameStatus === "in-progress"
+      ) {
+        this.gameStatus = GameData.gameStatus;
+      }
+      this.judge = GameData.judge;
+      this.playersList = GameData.playersList;
+      this.hands = GameData.hands;
     }
-    this.judge = GameData.judge;
-    this.playersList = GameData.playersList;
-    this.hands = GameData.hands;
   }
 }
 

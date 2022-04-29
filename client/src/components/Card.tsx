@@ -1,6 +1,6 @@
 import "../styles/Card.scss";
 import React from "react";
-import { BaseCard } from "../types";
+import { BaseCard } from "../types/game.types";
 import { observer } from "mobx-react-lite";
 import PlayerStore from "../store/PlayerStore";
 interface CardProps {

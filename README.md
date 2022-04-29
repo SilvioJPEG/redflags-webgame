@@ -15,8 +15,5 @@ To build
 ```
 
 Backend built with
-- Golang
-- gorilla/mux
-
-```bash
-    go 
+- Python
+- Flask+SQLAlchemy

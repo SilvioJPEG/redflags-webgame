@@ -3,7 +3,7 @@ import { Card } from "./Card";
 import "../styles/Info.scss";
 import GameStore from "../store/GameStore";
 import DropZone from "./DropZone";
-import { BaseCard, Perk, User } from "../types";
+import { BaseCard, Perk } from "../types/game.types";
 import { observer } from "mobx-react-lite";
 import PlayerStore from "../store/PlayerStore";
 

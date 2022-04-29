@@ -83,7 +83,7 @@ body {
     border-color: rgba(255, 214, 0, 0.64);
   }
 }
-input {
+.usernameInput {
   color: white;
   background-color: transparent;
   border: 0;
@@ -101,10 +101,13 @@ button {
   padding: 10px 15px;
   border: 0;
   width: 100%;
+  font-weight: 500;
+  font-size: 20px;
   transition: all 0.05s ease-in-out;
+  border-radius: 4px;
   &:hover {
     cursor: pointer;
-    transform: scale(1.05);
+    transform: scale(1.02 );
   }
 }
 .button_red {
@@ -114,4 +117,14 @@ button {
 .button_white {
   background-color: white;
   color: var(--red);
+}
+
+.buttonsWrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  text-align: center;
+  column-gap: 20px;
+  p {
+    padding: 20px;
+  }
 }

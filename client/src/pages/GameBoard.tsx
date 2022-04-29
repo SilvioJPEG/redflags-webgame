@@ -1,6 +1,6 @@
 import React from "react";
 import PlayerBox from "../components/PlayerBox";
-import { BaseCard } from "../types";
+import { BaseCard } from "../types/game.types";
 import cursorStore from "../store/CursorStore";
 import { observer } from "mobx-react-lite";
 import PlayerStore from "../store/PlayerStore";

@@ -8,9 +8,11 @@ export type Perk = {
   card: BaseCard | null;
 };
 
-export type User = {
+export type BasePlayer = {
+  id: number;
   username: string;
   status: Role;
+  host: boolean;
 };
 
 export type Role = "picker" | "itsTurn" | "waiting";
@@ -19,6 +21,11 @@ export type Position = {
   x: number;
   y: number;
 };
+
+export interface Player extends BasePlayer {
+  draggingCard: BaseCard | null;
+  pickerCards: Perk[];
+}
 
 export type Hand = {
   username: string;

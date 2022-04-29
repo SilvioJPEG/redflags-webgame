@@ -1,5 +1,5 @@
 import { makeAutoObservable } from "mobx";
-import { Position } from "../types";
+import { Position } from "../types/game.types";
 
 class CursorStore {
   pos: Position = { x: 0, y: 0 };

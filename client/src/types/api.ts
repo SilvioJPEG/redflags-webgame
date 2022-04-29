@@ -1,7 +1,7 @@
 import { Hand } from "./game.types";
 
 export type BaseGameData = {
-  gameId: string | null;
+  id: number | null;
   gameStatus: string;
   currentTurn: string;
   judge: string;

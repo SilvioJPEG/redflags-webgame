@@ -11,7 +11,7 @@ import GameStore from "../store/GameStore";
 const Board: React.FC = () => {
   function getHand(username: string): BaseCard[] {
     const hand = GameStore.hands.find((el) => {
-      return el.username === username;
+      return el.owner === username;
     });
     if (hand) {
       return hand.cardsInHand;
@@ -79,14 +79,14 @@ const Board: React.FC = () => {
     }
     if (
       cursorStore.dropZoneIndex === 2 &&
-      card.type === "flags" &&
+      card.type === "flag" &&
       PlayerStore.pickedCards[2].card === null
     ) {
       return true;
     }
     if (
       [0, 1].includes(cursorStore.dropZoneIndex) &&
-      card.type === "perks" &&
+      card.type === "perk" &&
       PlayerStore.pickedCards[cursorStore.dropZoneIndex].card === null
     ) {
       return true;

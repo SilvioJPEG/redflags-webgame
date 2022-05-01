@@ -1,9 +1,11 @@
 from flask import Blueprint
 from sqlalchemy import select
+from models import db
 
 
 def getUserData(userId: int):
-    ...
+    player = db.session.query.get(userId)
+    return player
 
 
 def update(userId):

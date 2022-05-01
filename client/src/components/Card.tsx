@@ -15,7 +15,7 @@ export const Card: React.FC<CardProps> = observer(
       if (!inHand || PlayerStore.draggingCard === null) {
         return false;
       }
-      if (PlayerStore.draggingCard.cardText === card.cardText) {
+      if (PlayerStore.draggingCard.description === card.description) {
         return true;
       }
       return false;
@@ -31,8 +31,8 @@ export const Card: React.FC<CardProps> = observer(
         }}
         style={checkDragging() ? { opacity: 0 } : {}}
       >
-        <div className={"card__inner" + (card.cardText ? "" : "_back")}>
-          {card.cardText ? <p>{card.cardText}</p> : ""}
+        <div className={"card__inner" + (card.description ? "" : "_back")}>
+          {card.description ? <p>{card.description}</p> : ""}
         </div>
       </div>
     );

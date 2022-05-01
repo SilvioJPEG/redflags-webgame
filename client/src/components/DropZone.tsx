@@ -14,14 +14,14 @@ const DropZone: React.FC<DropZoneProps> = observer(({ index, username }) => {
       if (card) {
         if (
           index === 2 &&
-          card.type === "flags" &&
+          card.type === "flag" &&
           PlayerStore.pickedCards[2].card === null
         ) {
           return true;
         }
         if (
           [0, 1].includes(index) &&
-          card.type === "perks" &&
+          card.type === "perk" &&
           PlayerStore.pickedCards[index].card === null
         ) {
           return true;

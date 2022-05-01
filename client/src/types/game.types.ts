@@ -1,6 +1,6 @@
 export type BaseCard = {
-  type: "flags" | "perks";
-  cardText: string | null;
+  type: "flag" | "perk";
+  description: string | null;
 };
 
 export type Perk = {
@@ -28,6 +28,6 @@ export interface Player extends BasePlayer {
 }
 
 export type Hand = {
-  username: string;
+  owner: string;
   cardsInHand: BaseCard[];
 };

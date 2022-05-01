@@ -1,10 +1,9 @@
 import random
 import string
-from flask import Blueprint
-from models.index import db
+from flask import Blueprint, request
 from models.Game import Game
 from models.Player import Player
-
+from models import db
 
 def update(userId):
     ...
@@ -24,10 +23,11 @@ def joinRoom(room_code: int, username: string):
         # TODO: add player to the room
 
 
-def create(username: string):
+def create():
     try:
+        body = request.get_json()
         # creating host instance
-        host = Player(username=username, role="waiting", host=True)
+        host = Player(username=body['username'], role="waiting", host=True)
         db.session.add(host)
         # creating game room instance
         random_ac = ''.join(random.choices(
@@ -48,7 +48,8 @@ def getRoomData(room_code: int, user_id: int):
 
 gameController = Blueprint('game_bp', __name__)
 gameController.route('/', methods=['GET'])(getRoomData)
-gameController.route('/game/join/<int:room_code>', methods=['POST'])(joinRoom)
-gameController.route('game/<int:room_code>', methods=['POST'])(getRoomData)
-gameController.route('/<int:userId>/edit', methods=['POST'])(update)
+gameController.route('/join/<int:room_code>', methods=['POST'])(joinRoom)
+gameController.route('/create', methods=['POST'])(create)
+gameController.route('/game/<int:room_code>', methods=['POST'])(getRoomData)
+gameController.route('/<int:userId>/edit', methods=['PATCH'])(update)
 gameController.route('/<int:userId>', methods=['DELETE'])(delete)

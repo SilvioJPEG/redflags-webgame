@@ -3,7 +3,11 @@ import string
 from flask import Blueprint, request
 from models.Game import Game
 from models.Player import Player
+from models.Card import Card
+from models.PickedCards import PickedCards
+
 from models import db
+
 
 def update(userId):
     ...

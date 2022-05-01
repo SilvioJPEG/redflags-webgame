@@ -9,19 +9,13 @@ class PickedCards(db.Model):
     __tablename__ = 'picked_cards'
 
     id = Column(Integer, primary_key=True)
-    owner = Column(UUID, ForeignKey("players.id"))
+
+    owner_id = Column(UUID, ForeignKey("players.id"))
+    owner = relationship("Player", back_populates="picked_cards")
 
     first_perk_id = Column(Integer, ForeignKey("cards.id"))
-    first_perk = relationship(
-        "Card", backref=backref("picked_cards", uselist=False))
-
     second_perk_id = Column(Integer, ForeignKey("cards.id"))
-    second_perk = relationship(
-        "Card", backref=backref("picked_cards", uselist=False))
-
     flag_id = Column(Integer,  ForeignKey("cards.id"))
-    flag = relationship("Card", backref=backref(
-        "picked_cards", uselist=False))
 
     def __repr__(self):
         return f'<Picked Cards id={self.id}>'

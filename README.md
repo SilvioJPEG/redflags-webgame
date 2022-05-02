@@ -20,8 +20,9 @@ To build
 
 ## Backend 
 built with:
-- Python
-- Flask+SQLAlchemy
+- Typescript
+- Express
+- Sequelize    
 
 To run backend part in development mode clone this repo and run
 

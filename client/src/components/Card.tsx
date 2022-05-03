@@ -6,11 +6,10 @@ import PlayerStore from "../store/PlayerStore";
 interface CardProps {
   card: BaseCard;
   inHand: boolean;
-  username: string;
+  player: { id: string; username: string } | null;
 }
-
 export const Card: React.FC<CardProps> = observer(
-  ({ card, inHand, username }) => {
+  ({ card, inHand, player }) => {
     function checkDragging(): boolean {
       if (!inHand || PlayerStore.draggingCard === null) {
         return false;
@@ -21,20 +20,23 @@ export const Card: React.FC<CardProps> = observer(
       return false;
     }
     return (
-      <div
-        className={
-          "card " + "card_" + card.type + (inHand ? " card_inHand" : "")
-        }
-        onMouseDown={() => {
-          if (username === PlayerStore.username && inHand)
-            PlayerStore.setDraggingCard(card);
-        }}
-        style={checkDragging() ? { opacity: 0 } : {}}
-      >
-        <div className={"card__inner" + (card.description ? "" : "_back")}>
-          {card.description ? <p>{card.description}</p> : ""}
+      player && (
+        <div
+          className={
+            "card " + "card_" + card.type + (inHand ? " card_inHand" : "")
+          }
+          onMouseDown={() => {
+            if (inHand && PlayerStore.id === player.id) {
+              PlayerStore.setDraggingCard(card);
+            }
+          }}
+          style={checkDragging() ? { opacity: 0 } : {}}
+        >
+          <div className={"card__inner" + (card.description ? "" : "_back")}>
+            {card.description ? <p>{card.description}</p> : ""}
+          </div>
         </div>
-      </div>
+      )
     );
   }
 );

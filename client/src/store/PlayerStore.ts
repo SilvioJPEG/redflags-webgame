@@ -2,23 +2,36 @@ import { makeAutoObservable } from "mobx";
 import { BaseCard, BasePlayer, Perk, Role } from "../types/game.types";
 
 class PlayerStore {
-  id: number | null = null;
-  username: string = "";
+  id: string | null = null;
+  username: string | null = null;
   //defines if player has host rights or not
   host: boolean = false;
   status: Role = "waiting";
+
   pickedCards: Perk[] = [
     { index: 0, card: null },
     { index: 1, card: null },
     { index: 2, card: null },
   ];
+
+  hand: BaseCard[] = [
+    { type: "perk", description: "Owns your favorite sports team" },
+    { type: "perk", description: "Generous" },
+    { type: "perk", description: "Travels a lot" },
+    { type: "flag", description: "still uses a flip phone" },
+    {
+      type: "flag",
+      description: "Knocks things out of strangers’ hands",
+    },
+  ];
+
   draggingCard: BaseCard | null = null;
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  setUsername(username: string) {
+  public setUsername(username: string) {
     this.username = username;
   }
 
@@ -36,9 +49,21 @@ class PlayerStore {
 
   setUserData(data: BasePlayer) {
     this.username = data.username;
-    this.host = data.host;
     this.id = data.id;
-    this.status = data.status;
+  }
+
+  getHand(): BaseCard[] {
+    return this.hand;
+  }
+
+  deleteFromHand(card: BaseCard) {
+    this.hand = this.hand.filter((el: BaseCard) => el !== card);
+  }
+  getBasePlayer(): BasePlayer | null {
+    if (this.id && this.username) {
+      return { id: this.id, username: this.username };
+    }
+    return null;
   }
 }
 

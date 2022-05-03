@@ -1,9 +1,7 @@
-import { DataTypes, Model } from "sequelize";
-import { database } from "./database";
+import { DataTypes, Sequelize } from "sequelize";
 
-class Card extends Model {}
-Card.init(
-  {
+export default function (sequelize: Sequelize) {
+  sequelize.define("Card", {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -20,15 +18,5 @@ Card.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-  },
-  {
-    modelName: "Card",
-    tableName: "cards",
-    sequelize: database,
-    timestamps: false,
-  }
-);
-
-Card.sync({ force: true }).then(() => console.log("Cards table created"));
-
-export default Card;
+  });
+}

@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5002";
+const API_URL = "http://localhost:5002/api";
 
 const $api = axios.create({
-    baseURL: API_URL,
+  baseURL: API_URL,
 });
 
 export default $api;

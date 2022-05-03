@@ -1,75 +1,37 @@
 import { makeAutoObservable } from "mobx";
-import { BaseCard, Hand } from "../types/game.types";
-import { GameDataAll } from "../types/api";
+import { BaseCard, BasePlayer, otherHand } from "../types/game.types";
+import { GameData } from "../types/api";
 
 class GameStore {
   //saves current player username;
   roomId: number | null = null;
-  gameStatus: "ready" | "in-progress" = "ready";
-  currentTurn: string = "Alex Si";
-  judge: string = "Selen Uni";
-  playersList: string[] = ["Alex Si", "Jenny Arts", "Selen Un"];
-  hands: Hand[] = [
-    {
-      username: "Alex Si",
-      cardsInHand: [
-        { type: "perks", cardText: null },
-        { type: "perks", cardText: null },
-        { type: "perks", cardText: null },
-        { type: "perks", cardText: null },
-        { type: "flags", cardText: null },
-        { type: "flags", cardText: null },
-      ],
-    },
-    {
-      username: "Jenny Arts",
-      cardsInHand: [
-        { type: "perks", cardText: null },
-        { type: "perks", cardText: null },
-        { type: "perks", cardText: null },
-        { type: "perks", cardText: null },
-        { type: "flags", cardText: null },
-        { type: "flags", cardText: null },
-      ],
-    },
-    {
-      username: "Selen Un",
-      cardsInHand: [
-        { type: "perks", cardText: "Owns your favorite sports team" },
-        { type: "perks", cardText: "Generous" },
-        { type: "perks", cardText: "Travels a lot" },
-        { type: "flags", cardText: "still uses a flip phone" },
-        {
-          type: "flags",
-          cardText: "Knocks things out of strangers’ hands",
-        },
-      ],
-    },
+  gameStatus: "waiting" | "ready" | "in-progress" = "waiting";
+  currentTurn: { id: string; username: string } | null = null;
+  judge: { id: string; username: string } | null = null;
+  playersList: BasePlayer[] = [];
+
+  otherPlayersHands: otherHand[] = [
+    { uuid: "Alex Si", perks: 5, flags: 2 },
+    { uuid: "Jenny Arts", perks: 5, flags: 2 },
   ];
+
   constructor() {
     makeAutoObservable(this);
   }
 
-  setTurn(username: string) {
+  setTurn(username: BasePlayer) {
     this.currentTurn = username;
   }
 
-  setNewRound(newJudge: string) {
+  setNewRound(newJudge: BasePlayer) {
     this.judge = newJudge;
   }
 
-  deleteFromHand(card: BaseCard, username: string) {
-    let hand = this.hands.find((el: Hand) => el.username === username);
-    if (hand) {
-      let reducedCards = hand.cardsInHand.filter((el: BaseCard) => el !== card);
-      hand.cardsInHand = reducedCards;
-    }
-  }
-  setGameData(GameData: GameDataAll | null) {
+  setGameData(GameData: GameData | null) {
     if (GameData === null) {
       this.roomId = null;
       this.playersList = [];
-      this.hands = [];
+      this.gameStatus = "waiting";
     } else {
       this.roomId = GameData.id;
       if (
@@ -80,7 +42,26 @@ class GameStore {
       }
       this.judge = GameData.judge;
       this.playersList = GameData.playersList;
-      this.hands = GameData.hands;
+    }
+  }
+
+  getOtherPlayerHand(owner: BasePlayer): BaseCard[] {
+    const otherHand = this.otherPlayersHands.find((el) => el.uuid === owner.id);
+    if (otherHand) {
+      let hand: BaseCard[] = [];
+      let i: number = 0;
+      while (i < otherHand.perks) {
+        hand.push({ type: "perk", description: null });
+        i++;
+      }
+      i = 0;
+      while (i < otherHand.flags) {
+        hand.push({ type: "flag", description: null });
+        i++;
+      }
+      return hand;
+    } else {
+      return [];
     }
   }
 }

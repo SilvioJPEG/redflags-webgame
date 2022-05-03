@@ -1,4 +1,5 @@
 .modal {
+  position: relative;
   background-color: var(--red);
   border-radius: 4px;
   display: flex;
@@ -13,11 +14,23 @@
     row-gap: 5px;
     width: 100%;
   }
+  .modal__header__return-btn {
+    background: url("../assets/return.svg") center no-repeat;
+    background-size: 20px 20px;
+    background-color: unset;
+    position: absolute;
+    left: 10px;
+    width: auto;
+    &:hover {
+      transform: none;
+    }
+  }
 }
 .modal__code {
   display: flex;
   flex-direction: column;
   align-items: center;
+  row-gap: 10px;
   input {
     background: none;
     border: none;
@@ -26,7 +39,9 @@
     font-weight: 600;
     font-size: 50px;
     letter-spacing: 20px;
-    width: 260px;
+    max-width: 345px;
     border-bottom: 1px solid #fff;
+    text-align: center;
+    padding: 0 15px;
   }
 }

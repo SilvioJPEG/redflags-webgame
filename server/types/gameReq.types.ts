@@ -1,9 +1,4 @@
 import { Request, Response } from "express";
-import Game from "../models/Game";
-
-export interface updateGameRequest extends Request {
-  body: Game;
-}
 
 export interface DeleteGameRequest extends Request {
   body: {
@@ -20,9 +15,36 @@ export interface CreateGameRequest extends Request {
 
 export interface JoinGameRequest extends Request {
   params: {
-    asccess_code: string;
+    accessCode: string;
   };
   body: {
     username: string;
+  };
+}
+
+type otherHand = {
+  username: string;
+  perks: number;
+  flags: number;
+};
+
+export interface getGameResponse extends Response {
+  body: {
+    id: number;
+    gameStatus: string;
+    currentTurn: {
+      id: string;
+      username: string;
+    };
+    judge: {
+      id: string;
+      username: string;
+    };
+    host: {
+      id: string;
+      username: string;
+    };
+    playersList: string[];
+    otherPlayersHands: otherHand[];
   };
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import PlayerBox from "../components/PlayerBox";
-import { BaseCard } from "../types/game.types";
+import { BaseCard, BasePlayer } from "../types/game.types";
 import cursorStore from "../store/CursorStore";
 import { observer } from "mobx-react-lite";
 import PlayerStore from "../store/PlayerStore";
@@ -9,14 +9,13 @@ import CursorStore from "../store/CursorStore";
 import GameStore from "../store/GameStore";
 
 const Board: React.FC = () => {
-  function getHand(username: string): BaseCard[] {
-    const hand = GameStore.hands.find((el) => {
-      return el.owner === username;
-    });
-    if (hand) {
-      return hand.cardsInHand;
+  function getHand(user: BasePlayer): BaseCard[] {
+    if (user.username === PlayerStore.username) {
+      console.log(PlayerStore.getHand());
+      return PlayerStore.getHand();
+    } else {
+      return GameStore.getOtherPlayerHand(user);
     }
-    return [];
   }
   function updateCursorPos(e: MouseEvent) {
     cursorStore.changeMousePos({ x: e.pageX, y: e.pageY });
@@ -41,8 +40,8 @@ const Board: React.FC = () => {
   });
 
   React.useEffect(() => {
-    //TODO: get username from cookies
-    PlayerStore.setUsername("Selen Un");
+    //TODO: get user from cookies
+    // PlayerStore.setUsername("Selen Un");
   });
 
   function overDropZone() {
@@ -50,10 +49,6 @@ const Board: React.FC = () => {
       CursorStore.pos.x,
       CursorStore.pos.y
     );
-    const playerBox = elementsPoint.find((el) => {
-      return el.classList.contains("box");
-    });
-
     const dropZone = elementsPoint.find((el) => {
       return el.classList.contains("box__dropZone");
     });
@@ -101,10 +96,7 @@ const Board: React.FC = () => {
             cursorStore.dropZoneIndex,
             PlayerStore.draggingCard
           );
-          GameStore.deleteFromHand(
-            PlayerStore.draggingCard,
-            PlayerStore.username
-          );
+          PlayerStore.deleteFromHand(PlayerStore.draggingCard);
         }
         cursorStore.setDropZoneIndex(null);
       }
@@ -120,7 +112,7 @@ const Board: React.FC = () => {
             return (
               <PlayerBox
                 key={index}
-                playerName={player}
+                player={player}
                 handCards={getHand(player)}
               />
             );
@@ -133,7 +125,7 @@ const Board: React.FC = () => {
             return (
               <PlayerBox
                 key={index}
-                playerName={player}
+                player={player}
                 handCards={getHand(player)}
               />
             );
@@ -150,11 +142,7 @@ const Board: React.FC = () => {
         onMouseUp={() => releaseDraggingCard()}
       >
         {PlayerStore.draggingCard && (
-          <Card
-            card={PlayerStore.draggingCard}
-            inHand={false}
-            username={PlayerStore.username}
-          />
+          <Card card={PlayerStore.draggingCard} inHand={false} player={PlayerStore.getBasePlayer()} />
         )}
       </div>
     </div>

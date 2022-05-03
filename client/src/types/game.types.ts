@@ -9,10 +9,8 @@ export type Perk = {
 };
 
 export type BasePlayer = {
-  id: number;
+  id: string;
   username: string;
-  status: Role;
-  host: boolean;
 };
 
 export type Role = "picker" | "itsTurn" | "waiting";
@@ -27,7 +25,8 @@ export interface Player extends BasePlayer {
   pickerCards: Perk[];
 }
 
-export type Hand = {
-  owner: string;
-  cardsInHand: BaseCard[];
+export type otherHand = {
+  uuid: string;
+  perks: number;
+  flags: number;
 };

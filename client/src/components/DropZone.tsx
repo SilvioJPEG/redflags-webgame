@@ -1,15 +1,17 @@
 import { observer } from "mobx-react-lite";
-import CursorStore from "../store/CursorStore";
 import PlayerStore from "../store/PlayerStore";
 import { Card } from "./Card";
 type DropZoneProps = {
   index: number;
-  username: string;
+  player: {
+    id: string;
+    username: string;
+  };
 };
 
-const DropZone: React.FC<DropZoneProps> = observer(({ index, username }) => {
+const DropZone: React.FC<DropZoneProps> = observer(({ index, player }) => {
   function canDropCard(): boolean {
-    if (username === PlayerStore.username) {
+    if (player.username === PlayerStore.username) {
       const card = PlayerStore.draggingCard;
       if (card) {
         if (
@@ -32,9 +34,8 @@ const DropZone: React.FC<DropZoneProps> = observer(({ index, username }) => {
     return false;
   }
   function myDropZone(): boolean {
-    if (PlayerStore.getPickedCard(index) === null) 
-      return false;
-    return ((username === PlayerStore.username))
+    if (PlayerStore.getPickedCard(index) === null) return false;
+    return player.username === PlayerStore.username;
   }
   return (
     <div
@@ -46,7 +47,7 @@ const DropZone: React.FC<DropZoneProps> = observer(({ index, username }) => {
           <Card
             card={PlayerStore.getPickedCard(index)!}
             inHand={false}
-            username={username}
+            player={player}
           />
         </div>
       ) : (

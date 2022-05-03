@@ -1,13 +1,16 @@
-import { Hand } from "./game.types";
+import { BasePlayer, otherHand } from "./game.types";
 
-export type BaseGameData = {
+export type GameData = {
   id: number | null;
   gameStatus: string;
-  currentTurn: string;
-  judge: string;
-  playersList: string[];
+  currentTurn: {
+    id: string;
+    username: string;
+  };
+  judge: {
+    id: string;
+    username: string;
+  };
+  playersList: BasePlayer[];
+  otherPlayersHands: otherHand[];
 };
-
-export interface GameDataAll extends BaseGameData {
-  hands: Hand[];
-}

@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express";
-import Player from "../models/Player";
+import { Player } from "../models/Player";
 import Controller from "../types/Controller.interface";
 import { getPlayerRequest, updateUserRequest } from "../types/playerReq.types";
 
@@ -16,9 +16,7 @@ export class PlayerController implements Controller {
     this.initializeRoutes();
   }
 
-  public updateUser(req: updateUserRequest, res: Response) {
-
-  }
+  public updateUser(req: updateUserRequest, res: Response) {}
 
   public async getPlayerById(req: getPlayerRequest, res: Response) {
     const player = await Player.findByPk(req.params.uuid);

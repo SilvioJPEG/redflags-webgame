@@ -1,8 +1,17 @@
-import { Sequelize } from "sequelize";
+import { Model, ModelDefined, Sequelize } from "sequelize";
 import { DataTypes, UUIDV4 } from "sequelize";
 
+interface PlayerAttributes {
+  id: number;
+  username: string;
+  host: boolean;
+  current_turn: boolean;
+  judge: boolean;
+  game_id: number;
+}
+
 export default function (sequelize: Sequelize) {
-  sequelize.define(
+  const Player: ModelDefined<PlayerAttributes, any> = sequelize.define(
     "Player",
     {
       id: {
@@ -34,4 +43,5 @@ export default function (sequelize: Sequelize) {
       tableName: "players",
     }
   );
+  return Player;
 }

@@ -1,7 +1,13 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes, Model, Sequelize, ModelDefined } from "sequelize";
+
+interface GameAttributes {
+  id: number;
+  access_code: string;
+  game_status: string;
+}
 
 export default function (sequelize: Sequelize) {
-  sequelize.define(
+  const Game: ModelDefined<GameAttributes, any> = sequelize.define(
     "Game",
     {
       id: {
@@ -11,7 +17,7 @@ export default function (sequelize: Sequelize) {
       },
 
       access_code: {
-        type: DataTypes.STRING(7),
+        type: DataTypes.STRING(8),
         allowNull: false,
         unique: true,
       },
@@ -20,6 +26,10 @@ export default function (sequelize: Sequelize) {
         type: DataTypes.STRING(120),
         allowNull: false,
       },
+    },
+    {
+      tableName: "games",
     }
   );
+  return Game;
 }

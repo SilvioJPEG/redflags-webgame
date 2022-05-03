@@ -1,5 +1,10 @@
-import { Sequelize } from "sequelize";
+import { Sequelize, ModelDefined } from "sequelize";
 
 export default function (sequelize: Sequelize) {
-  sequelize.define("Hand", {}, { timestamps: false });
+  const Hand: ModelDefined<any, any> = sequelize.define(
+    "Hand",
+    {},
+    { tableName: "hands", timestamps: false }
+  );
+  return Hand;
 }

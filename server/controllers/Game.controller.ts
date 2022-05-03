@@ -6,10 +6,8 @@ import {
   DeleteGameRequest,
   JoinGameRequest,
 } from "../types/gameReq.types";
-import database from "../models/database";
+import { Game, Player } from "../models/database";
 
-
-const { Game, Player } = database.models;
 export class GameController implements Controller {
   public path = "/game";
   public router = express.Router();
@@ -28,29 +26,32 @@ export class GameController implements Controller {
 
   public async getGameData(req: Request, res: Response) {}
 
-  public async create(req: Request, res: Response) {
+  public async create(req: CreateGameRequest, res: Response) {
     try {
       console.log(req.body);
       let random_ac: string = "";
+      let isCodeUnique: boolean = false;
       do {
         random_ac = (Math.random() + 1).toString(36).substring(6);
         console.log(random_ac);
         let game = await Game.findOne({ where: { access_code: random_ac } });
+        console.log(game);
         if (!game) {
-          break;
+          isCodeUnique = true;
         }
-      } while (true);
+      } while (!isCodeUnique);
 
       const newGame = await Game.create({
         access_code: random_ac,
         game_status: "waiting",
       });
+      console.log(newGame);
 
       const host = await Player.create({
         id: uuidv4(),
         username: req.body.username,
         host: true,
-        game_id: newGame.id,
+        game_id: newGame.getDataValue("id"),
       });
 
       res.json({ host, newGame });
@@ -71,7 +72,7 @@ export class GameController implements Controller {
         id: uuidv4(),
         username: req.body.username,
         host: false,
-        game_id: game.id,
+        game_id: game.getDataValue("id"),
       });
       res.json(newPlayer);
     }
@@ -80,10 +81,10 @@ export class GameController implements Controller {
   public async deleteGame(req: DeleteGameRequest, res: Response) {
     const host = await Player.findByPk(req.body.host_id);
     if (host) {
-      if (host.host) {
+      if (host.getDataValue("host")) {
         const game = await Game.findByPk(req.body.game_id);
         if (game) {
-          await Player.destroy({ where: { game_id: game.id } });
+          await Player.destroy({ where: { game_id: game.getDataValue("id") } });
           game.destroy();
           return res.sendStatus(200);
         }

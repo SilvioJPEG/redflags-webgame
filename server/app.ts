@@ -2,6 +2,7 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import Controller from "./types/Controller.interface";
 import database from "./models/database";
+import cors from "cors";
 
 class App {
   public app: Express;
@@ -12,6 +13,7 @@ class App {
     this.app = express();
     this.app.use(bp.json());
     this.app.use(bp.urlencoded({ extended: true }));
+    this.app.use(cors());
     this.port = port;
     this.assertDatabaseConnectionOk();
     this.initializeControllers(controllers);

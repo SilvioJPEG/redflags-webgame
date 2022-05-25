@@ -4,8 +4,9 @@ import { GameData } from "../types/api";
 
 class GameStore {
   //saves current player username;
-  roomId: number | null = null;
-  gameStatus: "waiting" | "ready" | "in-progress" = "waiting";
+  id: number | null = null;
+  access_code: string = "";
+  gameStatus: null | "waiting" | "ready" | "in-progress" = null;
   currentTurn: { id: string; username: string } | null = null;
   judge: { id: string; username: string } | null = null;
   playersList: BasePlayer[] = [];
@@ -27,21 +28,27 @@ class GameStore {
     this.judge = newJudge;
   }
 
-  setGameData(GameData: GameData | null) {
+  setGameData(GameData: GameData | null, host?: BasePlayer) {
     if (GameData === null) {
-      this.roomId = null;
+      this.id = null;
+      this.access_code = "";
       this.playersList = [];
       this.gameStatus = "waiting";
     } else {
-      this.roomId = GameData.id;
+      this.id = GameData.id;
+      this.access_code = GameData.access_code;
       if (
         GameData.gameStatus === "ready" ||
         GameData.gameStatus === "in-progress"
       ) {
         this.gameStatus = GameData.gameStatus;
       }
-      this.judge = GameData.judge;
-      this.playersList = GameData.playersList;
+      if (GameData.judge) {
+        this.judge = GameData.judge;
+      }
+      if (GameData.playersList) {
+        this.playersList = GameData.playersList;
+      }
     }
   }
 

@@ -14,7 +14,7 @@
     row-gap: 5px;
     width: 100%;
   }
-  .modal__header__return-btn {
+  .modal__header__returnBtn {
     background: url("../assets/return.svg") center no-repeat;
     background-size: 20px 20px;
     background-color: unset;
@@ -31,7 +31,7 @@
   flex-direction: column;
   align-items: center;
   row-gap: 10px;
-  input {
+  #accessCode {
     background: none;
     border: none;
     outline: none;

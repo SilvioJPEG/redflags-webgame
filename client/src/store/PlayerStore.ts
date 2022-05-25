@@ -14,16 +14,7 @@ class PlayerStore {
     { index: 2, card: null },
   ];
 
-  hand: BaseCard[] = [
-    { type: "perk", description: "Owns your favorite sports team" },
-    { type: "perk", description: "Generous" },
-    { type: "perk", description: "Travels a lot" },
-    { type: "flag", description: "still uses a flip phone" },
-    {
-      type: "flag",
-      description: "Knocks things out of strangers’ hands",
-    },
-  ];
+  hand: BaseCard[] = [];
 
   draggingCard: BaseCard | null = null;
 
@@ -50,6 +41,8 @@ class PlayerStore {
   setUserData(data: BasePlayer) {
     this.username = data.username;
     this.id = data.id;
+    localStorage.setItem("uuid", data.id);
+    localStorage.setItem("username", data.username);
   }
 
   getHand(): BaseCard[] {
@@ -61,7 +54,7 @@ class PlayerStore {
   }
   getBasePlayer(): BasePlayer | null {
     if (this.id && this.username) {
-      return { id: this.id, username: this.username };
+      return { id: this.id, username: this.username, host: this.host };
     }
     return null;
   }

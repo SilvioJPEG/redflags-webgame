@@ -1,0 +1,24 @@
+#drawer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--red);
+  width: 10px;
+  display: flex;
+  transform: translateY(0);
+  transition: height 0.1s ease-in-out;
+  z-index: 10;
+  #arrow {
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    height: 20px;
+  }
+  &:hover {
+    height: 400px;
+    #arrow {
+      display: none;
+    }
+  }
+}

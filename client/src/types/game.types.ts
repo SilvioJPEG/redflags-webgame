@@ -11,6 +11,7 @@ export type Perk = {
 export type BasePlayer = {
   id: string;
   username: string;
+  host: boolean
 };
 
 export type Role = "picker" | "itsTurn" | "waiting";

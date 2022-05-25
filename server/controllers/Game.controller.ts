@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import Controller from "../types/Controller.interface";
 import { v4 as uuidv4 } from "uuid";
+import expressWs, { WebsocketRequestHandler } from "express-ws";
+
 import {
   CreateGameRequest,
   DeleteGameRequest,
@@ -17,14 +19,21 @@ export class GameController implements Controller {
   }
 
   private initializeRoutes() {
+    this.router.ws("/hand", this.wsGameHandler);
     this.router.post(`${this.path}/create`, this.create);
     this.router.post(`${this.path}/join/:accessCode`, this.joinGame);
     this.router.post(`${this.path}/:accessCode`, this.getGameData);
-    this.router.patch(`${this.path}`, this.updateGame);
-    this.router.delete(`${this.path}`, this.deleteGame);
+    this.router.patch(`${this.path}`, this.update);
+    this.router.delete(`${this.path}`, this.delete);
   }
 
   public async getGameData(req: Request, res: Response) {}
+
+  private wsGameHandler: WebsocketRequestHandler = (ws, req) => {
+    ws.on("new-player", () => {});
+
+    ws.on("kicked", () => {});
+  };
 
   public async create(req: CreateGameRequest, res: Response) {
     try {
@@ -45,7 +54,6 @@ export class GameController implements Controller {
         access_code: random_ac,
         game_status: "waiting",
       });
-      console.log(newGame);
 
       const host = await Player.create({
         id: uuidv4(),
@@ -54,7 +62,7 @@ export class GameController implements Controller {
         game_id: newGame.getDataValue("id"),
       });
 
-      res.json({ host, newGame });
+      res.json({ host, game: newGame });
     } catch (e) {
       console.log(e);
       res.sendStatus(500);
@@ -78,7 +86,7 @@ export class GameController implements Controller {
     }
   }
 
-  public async deleteGame(req: DeleteGameRequest, res: Response) {
+  public async delete(req: DeleteGameRequest, res: Response) {
     const host = await Player.findByPk(req.body.host_id);
     if (host) {
       if (host.getDataValue("host")) {
@@ -94,7 +102,7 @@ export class GameController implements Controller {
     }
   }
 
-  public async updateGame(req: Request, res: Response) {
+  public async update(req: Request, res: Response) {
     try {
       let game = await Game.findByPk(req.body.id);
       if (game) {

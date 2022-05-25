@@ -11,6 +11,7 @@ class App {
   constructor(controllers: Controller[], port: number) {
     const bp = require("body-parser");
     this.app = express();
+    require('express-ws')(this.app);
     this.app.use(bp.json());
     this.app.use(bp.urlencoded({ extended: true }));
     this.app.use(cors());

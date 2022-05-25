@@ -3,11 +3,13 @@ import React from "react";
 import { BaseCard } from "../types/game.types";
 import { observer } from "mobx-react-lite";
 import PlayerStore from "../store/PlayerStore";
+
 interface CardProps {
   card: BaseCard;
   inHand: boolean;
   player: { id: string; username: string } | null;
 }
+
 export const Card: React.FC<CardProps> = observer(
   ({ card, inHand, player }) => {
     function checkDragging(): boolean {

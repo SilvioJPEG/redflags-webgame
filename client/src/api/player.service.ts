@@ -8,7 +8,4 @@ export default class PlayerService {
     PlayerStore.setUserData(res.data);
   }
 
-  static async updatePlayer(uuid: string) {
-    const res = await $api.patch(`/player/${uuid}`);
-  }
 }

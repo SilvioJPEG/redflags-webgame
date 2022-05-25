@@ -1,3 +1,4 @@
+import faker from "@faker-js/faker";
 import { observer } from "mobx-react-lite";
 import React from "react";
 import GameService from "../api/game.service";
@@ -18,9 +19,12 @@ const StartingPoint: React.FC<StartProps> = ({ setModal }) => {
         <button
           className="button_white"
           onClick={() => {
-            GameService.createRoom().finally(() => {
-              setModal("create");
-            });
+            const name = localStorage.getItem("username");
+            if (name) {
+              GameService.createRoom(name).finally(() => {
+                setModal("create");
+              });
+            }
           }}
         >
           CREATE
@@ -39,9 +43,9 @@ const StartingPoint: React.FC<StartProps> = ({ setModal }) => {
 const CreatingNewRoom = (): JSX.Element => {
   return (
     <>
-      <span>Give this code to your friends so they can join!</span>
-      <div>
-        <p>{GameStore.roomId}</p>
+      <span>Give this code to your friends so they can join:</span>
+      <div className="modal__code">
+        <p id="access-code">{GameStore.access_code}</p>
       </div>
       <div className="buttonsGroup">
         <button className="button_white">Start game</button>
@@ -57,7 +61,7 @@ const JoinRoom = (
   return (
     <div className="modal__code">
       <p>Ask for the room code and paste it here:</p>
-      <input id="access-code" maxLength={6} />
+      <input id="accessCode" maxLength={6} />
 
       <button className="button_white">JOIN</button>
     </div>
@@ -68,26 +72,28 @@ const FindGamePage: React.FC = () => {
   const [modal, setModal] = React.useState<startingPageState>("start");
   const [username, setUsername] = React.useState<string>("");
   React.useEffect(() => {
-    const name = localStorage.getItem("username");
-    if (name) {
-      setUsername(name);
+    let name = localStorage.getItem("player:username");
+    if (!name || name.length === 0) {
+      name = faker.name.findName();
+      localStorage.setItem("player:username", name);
     }
-    const uuid = localStorage.getItem("uuid");
-    const access_code = localStorage.getItem("access_code");
+    setUsername(name);
+    const uuid = localStorage.getItem("game:uuid");
+    const access_code = localStorage.getItem("game:access_code");
     if (uuid && access_code) {
-      GameService.getRoomData(uuid, access_code);
+      GameService.getGameData(uuid, access_code);
     }
   }, []);
   const handleNameChange = (name: string) => {
     setUsername(name);
-    localStorage.setItem("username", name);
+    localStorage.setItem("player:username", name);
   };
   return (
     <div className="modal">
       <div className="modal__header">
         {modal === "join" && (
           <button
-            className="modal__header__return-btn"
+            className="modal__header__returnBtn"
             onClick={() => {
               setModal("start");
             }}

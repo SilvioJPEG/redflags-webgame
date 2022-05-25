@@ -7,6 +7,7 @@ import PlayerStore from "../store/PlayerStore";
 import { Card } from "../components/Card";
 import CursorStore from "../store/CursorStore";
 import GameStore from "../store/GameStore";
+import Drawer from "../components/Drawer";
 
 const Board: React.FC = () => {
   function getHand(user: BasePlayer): BaseCard[] {
@@ -37,11 +38,6 @@ const Board: React.FC = () => {
         cursorStore.changeMouseState(true)
       );
     };
-  });
-
-  React.useEffect(() => {
-    //TODO: get user from cookies
-    // PlayerStore.setUsername("Selen Un");
   });
 
   function overDropZone() {
@@ -142,9 +138,14 @@ const Board: React.FC = () => {
         onMouseUp={() => releaseDraggingCard()}
       >
         {PlayerStore.draggingCard && (
-          <Card card={PlayerStore.draggingCard} inHand={false} player={PlayerStore.getBasePlayer()} />
+          <Card
+            card={PlayerStore.draggingCard}
+            inHand={false}
+            player={PlayerStore.getBasePlayer()}
+          />
         )}
       </div>
+      <Drawer />
     </div>
   );
 };
